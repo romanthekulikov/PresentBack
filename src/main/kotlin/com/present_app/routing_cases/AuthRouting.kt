@@ -1,5 +1,6 @@
 package com.present_app.routing_cases
 
+import com.present_app.Utils
 import com.present_app.plugins.sendError
 import com.present_app.repository.dao.UserDao
 import com.present_app.repository.dao_impl.UserDaoImpl
@@ -21,9 +22,10 @@ class AuthRouting(private val call: ApplicationCall, private val connection: Con
                 if (user.password == password) {
                     sendData(user = user)
                 } else {
-                    call.respond(HttpStatusCode.NotFound, "Пользователь не найден")
-                    sendError()
+                    call.respond(Utils.getErrorResponse(404, "Не верный пароль"))
                 }
+            } else {
+                call.respond(Utils.getErrorResponse(404, "Пользователь не найден"))
             }
         } catch (e: Exception) {
             call.respond(HttpStatusCode.InternalServerError, "Ошибка сервера")
@@ -32,13 +34,14 @@ class AuthRouting(private val call: ApplicationCall, private val connection: Con
 
     @Serializable
     private data class AuthResponse(
+        val user_id: Int,
         val email: String,
         val name: String,
         val icon: String
     )
 
     private suspend fun sendData(user: User) {
-        val res = AuthResponse(user.email, user.name, user.icon)
+        val res = AuthResponse(user.id, user.email, user.name, user.icon)
         call.respond(res)
     }
 

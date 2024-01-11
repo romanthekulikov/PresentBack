@@ -20,15 +20,16 @@ class UserDaoImpl(private val connection: Connection) : UserDao {
     override fun getItem(filter: String): User? {
         return try {
             val result = connection.createStatement().executeQuery(
-                "SELECT email, \"password\", \"name\", icon FROM public.\"user\" WHERE email = '$filter'"
+                "SELECT id_user, email, \"password\", \"name\", icon FROM public.\"user\" WHERE email = '$filter'"
             )
             if (result.next()) {
-                val password = result.getString(2)
-                val email = result.getString(1)
-                val name = result.getString(3)
-                val icon = result.getString(4)
+                val id = result.getInt(1)
+                val password = result.getString(3)
+                val email = result.getString(2)
+                val name = result.getString(4)
+                val icon = result.getString(5)
 
-                User(password = password, email = email, icon = icon, name = name)
+                User(id = id, password = password, email = email, icon = icon, name = name)
             } else {
                 null
             }

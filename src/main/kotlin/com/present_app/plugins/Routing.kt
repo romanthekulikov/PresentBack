@@ -21,18 +21,18 @@ fun sendData() {
 }
 
 fun Application.configureRouting() {
-//    Database.connect(
-//        url = "jdbc:postgresql://localhost:5433/present_app_db",
-//        driver = "org.postgresql.Driver",
-//        user = "postgres",
-//        password = "s1210501139"
-//    )
     Database.connect(
-        url = "jdbc:postgresql://monorail.proxy.rlwy.net:25822/railway",
+        url = "jdbc:postgresql://localhost:5433/present_app_db",
         driver = "org.postgresql.Driver",
         user = "postgres",
-        password = "3adCFd6ceG2-gBA*2g13*4DB43dC-2eD"
+        password = "s1210501139"
     )
+//    Database.connect(
+//        url = "jdbc:postgresql://monorail.proxy.rlwy.net:25822/railway",
+//        driver = "org.postgresql.Driver",
+//        user = "postgres",
+//        password = "3adCFd6ceG2-gBA*2g13*4DB43dC-2eD"
+//    )
     val connection = ConnectionProvider.getInstance()
 
     routing {
