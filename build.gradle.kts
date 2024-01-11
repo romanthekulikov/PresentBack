@@ -17,9 +17,14 @@ version = "0.0.1"
 
 application {
     mainClass.set("com.present_app.ApplicationKt")
-
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+}
+
+ktor {
+    fatJar {
+        archiveFileName.set("fat.jar")
+    }
 }
 
 repositories {
