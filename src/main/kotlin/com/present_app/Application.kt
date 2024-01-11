@@ -9,7 +9,7 @@ fun main() {
 //    embeddedServer(CIO, port = 8080, host = "0.0.0.0", module = Application::module)
 //        .start(wait = true)
     embeddedServer(CIO, port = System.getenv("PORT").toInt(), module = Application::module)
-//        .start(wait = true)
+        .start(wait = true)
 }
 
 fun Application.module() {
