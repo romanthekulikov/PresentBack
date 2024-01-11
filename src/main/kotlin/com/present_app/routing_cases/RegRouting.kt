@@ -35,8 +35,4 @@ class RegRouting(private val call: ApplicationCall, private val connection: Conn
             return false
         }
     }
-    @Serializable
-    data class Drrr(
-        val t: String
-    )
 }
