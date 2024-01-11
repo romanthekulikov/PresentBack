@@ -21,6 +21,19 @@ application {
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 
+tasks.register<JavaExec>("runShadowFixed") {
+    val jarFile = (project.tasks.findByName("shadowJar") as Jar).getArchiveFile()
+    inputs.files(jarFile).withPropertyName("jarFile").withPathSensitivity(PathSensitivity.RELATIVE)
+    setMain("-jar")
+    description = "Runs this project as a JVM application using the shadow jar (fixed for Gradle 6.4+)"
+    group = ApplicationPlugin.APPLICATION_GROUP
+    jvmArgs = application.applicationDefaultJvmArgs.toList()
+
+    doFirst {
+        setArgs(mutableListOf(jarFile.get().asFile.path) + getArgs())
+    }
+}
+
 ktor {
     fatJar {
         archiveFileName.set("fat.jar")
