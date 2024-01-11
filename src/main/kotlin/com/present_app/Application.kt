@@ -9,7 +9,7 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 
 fun main() {
-    embeddedServer(Netty, host = "presentback-production.up.railway.app", module = Application::module)
+    embeddedServer(Netty, port = System.getenv("PORT").toInt(), module = Application::module)
         .start(wait = true)
 }
 
