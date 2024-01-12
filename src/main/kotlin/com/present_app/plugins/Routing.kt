@@ -80,7 +80,7 @@ fun Application.configureRouting() {
         }
 
         post("/check_stage_key") {
-            CheckStageKeyRouting(call = call, connection = connection)
+            CheckStageKeyRouting(call = call, connection = connection).check()
         }
 
 //        post("delete_tables") {
