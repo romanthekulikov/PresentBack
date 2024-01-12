@@ -30,7 +30,7 @@ tasks.register<JavaExec>("runShadowFixed") {
     jvmArgs = application.applicationDefaultJvmArgs.toList()
 
     doFirst {
-        args = mutableListOf(jarFile.get().asFile.path) + args
+        setArgs(mutableListOf(jarFile.get().asFile.path) + getArgs())
     }
 }
 
