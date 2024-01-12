@@ -46,7 +46,7 @@ class EnterTheGameRouting(private val call: ApplicationCall, private val connect
                             stages[i].long,
                             stages[i].lat
                         )
-                        val presentResponse = EnterPresentObject(presents!![i].text, presents[i].image, presents[i].link)
+                        val presentResponse = EnterPresentObject(presents!![i].text, presents[i].image ?: "", presents[i].link)
                         stagesResponse.add(stageResponse)
                         presentsResponse.add(presentResponse)
                     }

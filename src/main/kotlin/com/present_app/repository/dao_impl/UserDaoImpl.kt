@@ -44,8 +44,22 @@ class UserDaoImpl(private val connection: Connection) : UserDao {
         TODO("Not yet implemented")
     }
 
-    override fun updateItem(): Boolean {
-        TODO("Not yet implemented")
+    override fun updateName(name: String, userId: Int): Boolean {
+        return try {
+            connection.createStatement().executeQuery("UPDATE public.user SET name = '$name' WHERE id_user = $userId")
+            false
+        } catch (_: Exception) {
+            true
+        }
+    }
+
+    override fun updateIcon(icon: String, userId: Int): Boolean {
+        return try {
+            connection.createStatement().executeQuery("UPDATE public.user SET icon = '$icon' WHERE id_user = $userId")
+            false
+        } catch (_: Exception) {
+            true
+        }
     }
 
 }

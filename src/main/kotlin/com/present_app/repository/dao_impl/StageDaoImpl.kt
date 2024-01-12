@@ -13,10 +13,11 @@ class StageDaoImpl(private val connection: Connection) : StageDao {
                 val id = result.getInt(1)
                 val textStage = result.getString(2)
                 val hintText = result.getString(3)
-                val long = result.getDouble(4)
-                val lat = result.getDouble(5)
-                val resultIdGame = result.getInt(6)
-                val idPresent = result.getInt(7)
+                val key = result.getString(4)
+                val long = result.getDouble(5)
+                val lat = result.getDouble(6)
+                val resultIdGame = result.getInt(7)
+                val idPresent = result.getInt(8)
                 val stage = Stage(
                     id = id,
                     textStage = textStage,
@@ -24,7 +25,8 @@ class StageDaoImpl(private val connection: Connection) : StageDao {
                     long = long,
                     lat = lat,
                     idGame = resultIdGame,
-                    idPresent = idPresent
+                    idPresent = idPresent,
+                    key_present_game = key
                 )
                 stageList.add(stage)
             }
@@ -37,8 +39,9 @@ class StageDaoImpl(private val connection: Connection) : StageDao {
     override fun create(item: Stage): Boolean {
         return try {
             connection.createStatement().executeQuery(
-                "INSERT INTO public.stage (text_stage, hint_text, \"long\", lat, id_game, id_present) " +
-                        "VALUES ( '${item.textStage}', '${item.hintText}', ${item.long}, ${item.lat}, ${item.idGame}, ${item.idPresent} )"
+                "INSERT INTO public.stage (text_stage, hint_text, \"long\", lat, id_game, id_present, is_done, key_present_game) " +
+                        "VALUES ( '${item.textStage}', '${item.hintText}', ${item.long}, ${item.lat}, ${item.idGame}, " +
+                        "${item.idPresent}, ${item.is_done}, '${item.key_present_game}' )"
             )
             true
         } catch (e: Exception) {

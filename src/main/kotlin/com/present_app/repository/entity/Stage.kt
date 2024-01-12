@@ -7,5 +7,7 @@ data class Stage(
     val long: Double,
     val lat: Double,
     val idGame: Int,
-    val idPresent: Int
+    val key_present_game: String,
+    val idPresent: Int,
+    var is_done: Boolean = false
 )

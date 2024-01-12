@@ -49,7 +49,15 @@ class PresentDaoImpl(private val connection: Connection) : PresentDao {
         } catch (_: Exception) {
             null
         }
+    }
 
+    override fun updateImage(image: String, idPresent: Int) {
+        try {
+            connection.createStatement().executeQuery(
+                "UPDATE present SET present_img = '$image' WHERE idPresent = $idPresent"
+            )
+        } catch (_: Exception) {
+        }
     }
 
     override fun create(item: Present): Boolean {
@@ -65,8 +73,23 @@ class PresentDaoImpl(private val connection: Connection) : PresentDao {
 
     }
 
-    override fun getItem(filter: Int): Present? {
-        TODO("Not yet implemented")
+    override fun getItem(idPresent: Int): Present? {
+        return try {
+            val result = connection.createStatement().executeQuery("SELECT * FROM public.present WHERE id_present = $idPresent")
+            if (result.next()) {
+                val id = result.getInt(1)
+                val text = result.getString(2)
+                val idSender = result.getInt(3)
+                val image = result.getString(4)
+                val keyOpen = result.getString(5)
+                val link = result.getString(6)
+
+                return Present(id, text, idSender, image, keyOpen, link)
+            }
+            null
+        } catch (_: Exception) {
+            null
+        }
     }
 
     override fun deleteItem(filter: Int): Boolean {

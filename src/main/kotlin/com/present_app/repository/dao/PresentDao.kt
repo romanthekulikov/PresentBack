@@ -6,4 +6,5 @@ import com.present_app.repository.entity.Stage
 interface PresentDao : BaseDao<Present, Int> {
     fun getLastItemBySenderId(id: Int): Present?
     fun getPresentsListByStages(stages: List<Stage>): List<Present>?
+    fun updateImage(image: String, idPresent: Int)
 }

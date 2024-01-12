@@ -43,19 +43,12 @@ class CreateGameRouting(private val call: ApplicationCall, private val connectio
                 if (gameSet.presents.isNotEmpty() && dbGame != null) {
                     for (i in 0..<gameSet.presents.size) {
                         val present = gameSet.presents[i]
-                        val byteArray = present.img.toByteArray()
-                        val imageName = UUID.randomUUID().toString()
-                        val file = File("./presents_images/$imageName.png")
-                        val outStream = FileOutputStream(file)
-                        outStream.write(byteArray)
-                        outStream.flush()
-                        outStream.close()
                         val dbPresent = Present(
                             text = present.text,
                             idSender = gameSet.idAdmin,
-                            image = imageName,
                             keyOpen = present.key,
-                            link = present.link
+                            link = present.link,
+                            image = present.image
                         )
                         presentDao.create(dbPresent)
                         val newPresent = presentDao.getLastItemBySenderId(dbPresent.idSender)
@@ -69,7 +62,9 @@ class CreateGameRouting(private val call: ApplicationCall, private val connectio
                                 long = stage.long,
                                 lat = stage.lat,
                                 idGame = dbGame.id,
-                                idPresent = idPresent
+                                idPresent = idPresent,
+                                key_present_game = stage.key,
+                                is_done = false
                             )
                             stageDao.create(dbStage)
                         }
@@ -96,7 +91,8 @@ class CreateGameRouting(private val call: ApplicationCall, private val connectio
                 text = item.getString("text_stage"),
                 hint = item.getString("hint_text"),
                 long = item.getDouble("long"),
-                lat = item.getDouble("lat")
+                lat = item.getDouble("lat"),
+                key = item.getString("key_present_game")
             )
             stages.add(stage)
         }
@@ -105,9 +101,9 @@ class CreateGameRouting(private val call: ApplicationCall, private val connectio
             val item = presentsJson.getJSONObject(i)
             val present = Present(
                 text = item.getString("present_text"),
-                img = item.getString("present_img"),
                 key = item.getString("key"),
-                link = item.getString("redirect_link")
+                link = item.getString("redirect_link"),
+                image = item.getString("present_img")
             )
             presents.add(present)
         }
@@ -125,14 +121,15 @@ class CreateGameRouting(private val call: ApplicationCall, private val connectio
         val text: String,
         val hint: String,
         val long: Double,
-        val lat: Double
+        val lat: Double,
+        val key: String
     )
 
     private data class Present(
         val text: String,
-        val img: String,
         val key: String,
-        val link: String
+        val link: String,
+        val image: String
     )
 
     @Serializable
