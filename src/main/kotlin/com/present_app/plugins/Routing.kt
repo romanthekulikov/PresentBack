@@ -79,6 +79,10 @@ fun Application.configureRouting() {
             UpdateUserRouting(call = call, connection = connection).update()
         }
 
+        post("/check_stage_key") {
+            CheckStageKeyRouting(call = call, connection = connection)
+        }
+
 //        post("delete_tables") {
 //            connection.createStatement().execute("DROP TABLE public.user CASCADE")
 //            connection.createStatement().execute("DROP TABLE public.chat CASCADE")
