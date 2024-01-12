@@ -44,13 +44,14 @@ class EnterTheGameRouting(private val call: ApplicationCall, private val connect
                             stages[i].textStage,
                             stages[i].hintText,
                             stages[i].long,
-                            stages[i].lat
+                            stages[i].lat,
+                            stages[i].is_done
                         )
                         val presentResponse = EnterPresentObject(presents!![i].text, presents[i].image ?: "", presents[i].link)
                         stagesResponse.add(stageResponse)
                         presentsResponse.add(presentResponse)
                     }
-                    val enterGame = EnterGameObject(game.id, game.idAdmin, idUser, game.date)
+                    val enterGame = EnterGameObject(game.id, game.idAdmin, idUser, game.date, game.idChat)
                     val enterResponse = EnterResponse(enterGame, stagesResponse, presentsResponse)
 
                     call.respond(enterResponse)
@@ -79,7 +80,8 @@ class EnterTheGameRouting(private val call: ApplicationCall, private val connect
         val id_game: Int,
         val id_admin: Int,
         val id_user: Int,
-        val start_date: String
+        val start_date: String,
+        val chat_id: Int
     )
     @Serializable
     data class EnterStageObject(
@@ -89,7 +91,8 @@ class EnterTheGameRouting(private val call: ApplicationCall, private val connect
         val text_stage: String,
         val hint_text: String,
         val long: Double,
-        val lat: Double
+        val lat: Double,
+        val is_done: Boolean
     )
     @Serializable
     data class EnterPresentObject(

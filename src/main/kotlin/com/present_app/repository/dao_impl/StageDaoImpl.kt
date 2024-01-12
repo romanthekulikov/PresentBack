@@ -18,6 +18,7 @@ class StageDaoImpl(private val connection: Connection) : StageDao {
                 val lat = result.getDouble(6)
                 val resultIdGame = result.getInt(7)
                 val idPresent = result.getInt(8)
+                val isDone = result.getBoolean(9)
                 val stage = Stage(
                     id = id,
                     textStage = textStage,
@@ -26,7 +27,8 @@ class StageDaoImpl(private val connection: Connection) : StageDao {
                     lat = lat,
                     idGame = resultIdGame,
                     idPresent = idPresent,
-                    key_present_game = key
+                    key_present_game = key,
+                    is_done = isDone
                 )
                 stageList.add(stage)
             }

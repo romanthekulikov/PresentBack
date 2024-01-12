@@ -9,14 +9,6 @@ import io.ktor.server.routing.*
 import org.jetbrains.exposed.sql.Database
 import java.io.File
 
-fun sendError() {
-    TODO("Not yet implemented")
-}
-
-fun sendData() {
-    TODO("Not yet implemented")
-}
-
 fun Application.configureRouting() {
 //    Database.connect(
 //        url = "jdbc:postgresql://localhost:5433/present_app_db",
@@ -40,6 +32,10 @@ fun Application.configureRouting() {
         staticFiles("/static", File("user_icons"))
         staticFiles("/static", File("chat_images"))
 
+        get("/hello") {
+            call.respond("Hello World!")
+        }
+
         get("/get_present_image") {
             val image = call.parameters["image"]
             call.respondFile(File("./presents_images/$image"))
@@ -61,6 +57,14 @@ fun Application.configureRouting() {
 
         get("/enter_the_game") {
             EnterTheGameRouting(call = call, connection = connection).enter()
+        }
+
+        get("/chat_settings") {
+            RespondChatRouting(call = call, connection = connection).respond()
+        }
+
+        get("/games_progress") {
+            RespondGamesProgress(call = call, connection = connection).respond()
         }
 
         post("/reg") {

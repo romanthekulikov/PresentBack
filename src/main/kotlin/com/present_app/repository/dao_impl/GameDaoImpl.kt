@@ -24,6 +24,25 @@ class GameDaoImpl(private val connection: Connection) : GameDao {
         }
     }
 
+    override fun getAllGameByUserId(idAdmin: Int): List<Game>? {
+        return try {
+            val result = connection.createStatement().executeQuery(
+                "SELECT * WHERE id_admin = $idAdmin"
+            )
+            val gameList = mutableListOf<Game>()
+            while (result.next()) {
+                val id = result.getInt(1)
+                val idAdminGame = result.getInt(2)
+                val enterKey = result.getString(4)
+                val idChat = result.getInt(5)
+                gameList.add(Game(id = id, idAdmin = idAdminGame, enterKey = enterKey, idChat = idChat))
+            }
+            gameList
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     override fun updateUserAndDateByIdGame(idUser: Int, date: String, idGame: Int) {
         try {
             connection.createStatement().executeQuery("UPDATE game SET start_date = '$date', id_user = $idUser WHERE id_game = $idGame")

@@ -10,9 +10,16 @@ import java.sql.Connection
 class UpdateUserRouting(private val call: ApplicationCall, private val connection: Connection) {
     suspend fun update() {
         val userId = call.parameters["user_id"]!!.toInt()
-        val name = call.parameters["name"]!!
+        val name = call.parameters["name"]
+        val icon = call.parameters["icon"]
         val userDao: UserDao = UserDaoImpl(connection = connection)
-        userDao.updateName(name, userId)
+        if (!name.isNullOrEmpty()) {
+            userDao.updateName(name, userId)
+        }
+        if (!icon.isNullOrEmpty()) {
+            userDao.updateIcon(icon, userId)
+        }
+
         call.respond(Utils.getErrorResponse(200, "Информация сохранена"))
     }
 }
