@@ -61,6 +61,10 @@ fun Application.configureRouting() {
             RespondChatSettingsRouting(call = call, connection = connection).respond()
         }
 
+        get("/user") {
+            RespondUserRouting(call = call, connection = connection).respond()
+        }
+
 
 
         post("/reg") {

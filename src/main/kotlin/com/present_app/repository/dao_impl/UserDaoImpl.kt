@@ -44,6 +44,20 @@ class UserDaoImpl(private val connection: Connection) : UserDao {
         TODO("Not yet implemented")
     }
 
+    override fun getUserById(id: Int): User? {
+        val result = connection.createStatement().executeQuery("SELECT * FROM public.user WHERE id_user = $id")
+        if (result.next()) {
+            return User(
+                result.getInt(1),
+                password = "",
+                email = result.getString(3),
+                name = result.getString(4),
+                icon = result.getString(5)
+            )
+        }
+        return null
+    }
+
     override fun updateName(name: String, userId: Int): Boolean {
         return try {
             connection.createStatement().executeQuery("UPDATE public.user SET name = '$name' WHERE id_user = $userId")
