@@ -39,7 +39,10 @@ class StageDaoImpl(private val connection: Connection) : StageDao {
     }
 
     override fun doneStage(idStage: Int) {
-        connection.createStatement().executeQuery("UPDATE public.stage SET is_done = true WHERE id_stage = $idStage")
+        try {
+            connection.createStatement().executeQuery("UPDATE public.stage SET is_done = true WHERE id_stage = $idStage")
+        } catch (_: Exception) {}
+
     }
 
     override fun create(item: Stage): Boolean {

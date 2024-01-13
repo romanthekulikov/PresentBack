@@ -21,7 +21,7 @@ class AuthRouting(private val call: ApplicationCall, private val connection: Con
                 if (user.password == password) {
                     sendData(user = user)
                 } else {
-                    call.respond(Utils.getErrorResponse(404, "Не верный пароль"))
+                    call.respond(Utils.getErrorResponse(404, "Неверный пароль"))
                 }
             } else {
                 call.respond(Utils.getErrorResponse(404, "Пользователь не найден"))

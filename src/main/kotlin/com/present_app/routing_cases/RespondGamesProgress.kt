@@ -28,12 +28,12 @@ class RespondGamesProgress(private val call: ApplicationCall, private val connec
                     }
                     var done = 0.0
                     if (doneStagesCount > 0) {
-                        done = stages.count().toDouble() / doneStagesCount
+                        done = doneStagesCount / stages.count().toDouble()
                     }
                     progresses.add(
                         GamesProgressResponse(
                             id_admin = game.idAdmin,
-                            done,
+                            done * 100,
                             "$doneStagesCount/${stages.count()}"
                         )
                     )
