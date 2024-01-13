@@ -27,7 +27,7 @@ class GameDaoImpl(private val connection: Connection) : GameDao {
     override fun getAllGameByUserId(idAdmin: Int): List<Game>? {
         return try {
             val result = connection.createStatement().executeQuery(
-                "SELECT * WHERE id_admin = $idAdmin"
+                "SELECT * FROM game WHERE id_admin = $idAdmin"
             )
             val gameList = mutableListOf<Game>()
             while (result.next()) {
@@ -35,6 +35,16 @@ class GameDaoImpl(private val connection: Connection) : GameDao {
                 val idAdminGame = result.getInt(2)
                 val enterKey = result.getString(4)
                 val idChat = result.getInt(5)
+                gameList.add(Game(id = id, idAdmin = idAdminGame, enterKey = enterKey, idChat = idChat))
+            }
+            val resultUserId = connection.createStatement().executeQuery(
+                "SELECT * FROM game WHERE id_user = $idAdmin"
+            )
+            while (resultUserId.next()) {
+                val id = resultUserId.getInt(1)
+                val idAdminGame = resultUserId.getInt(2)
+                val enterKey = resultUserId.getString(4)
+                val idChat = resultUserId.getInt(5)
                 gameList.add(Game(id = id, idAdmin = idAdminGame, enterKey = enterKey, idChat = idChat))
             }
             gameList

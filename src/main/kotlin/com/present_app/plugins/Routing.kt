@@ -83,15 +83,15 @@ fun Application.configureRouting() {
             CheckStageKeyRouting(call = call, connection = connection).check()
         }
 
-//        post("delete_tables") {
-//            connection.createStatement().execute("DROP TABLE public.user CASCADE")
-//            connection.createStatement().execute("DROP TABLE public.chat CASCADE")
-//            connection.createStatement().execute("DROP TABLE public.game CASCADE")
-//            connection.createStatement().execute("DROP TABLE public.message CASCADE")
-//            connection.createStatement().execute("DROP TABLE public.present CASCADE")
-//            connection.createStatement().execute("DROP TABLE public.push_notification CASCADE")
-//            connection.createStatement().execute("DROP TABLE public.stage CASCADE")
-//        }
+        post("delete_tables") {
+            connection.createStatement().execute("DROP TABLE public.user CASCADE")
+            connection.createStatement().execute("DROP TABLE public.chat CASCADE")
+            connection.createStatement().execute("DROP TABLE public.game CASCADE")
+            connection.createStatement().execute("DROP TABLE public.message CASCADE")
+            connection.createStatement().execute("DROP TABLE public.present CASCADE")
+            connection.createStatement().execute("DROP TABLE public.push_notification CASCADE")
+            connection.createStatement().execute("DROP TABLE public.stage CASCADE")
+        }
 
         post("create_db") {
             connection.createStatement().execute("BEGIN;\n" +

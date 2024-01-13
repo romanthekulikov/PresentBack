@@ -6,6 +6,7 @@ import com.present_app.repository.dao_impl.GameDaoImpl
 import com.present_app.repository.dao_impl.StageDaoImpl
 import io.ktor.server.application.*
 import io.ktor.server.response.*
+import kotlinx.serialization.Serializable
 import java.sql.Connection
 
 class RespondGamesProgress(private val call: ApplicationCall, private val connection: Connection) {
@@ -25,10 +26,14 @@ class RespondGamesProgress(private val call: ApplicationCall, private val connec
                             doneStagesCount += 1
                         }
                     }
+                    var done = 0.0
+                    if (doneStagesCount > 0) {
+                        done = stages.count().toDouble() / doneStagesCount
+                    }
                     progresses.add(
                         GamesProgressResponse(
                             id_admin = game.idAdmin,
-                            stages.count().toDouble() / doneStagesCount,
+                            done,
                             "$doneStagesCount/${stages.count()}"
                         )
                     )
@@ -37,6 +42,7 @@ class RespondGamesProgress(private val call: ApplicationCall, private val connec
             call.respond(progresses)
         }
     }
+    @Serializable
     data class GamesProgressResponse(
         val id_admin: Int,
         val progress: Double,
