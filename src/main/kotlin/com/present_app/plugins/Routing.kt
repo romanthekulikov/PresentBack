@@ -71,6 +71,10 @@ fun Application.configureRouting() {
             RespondUserInfo(call = call, connection = connection).respond()
         }
 
+        get("/open_present") {
+            OpenPresentRouting(call = call, connection = connection).open()
+        }
+
         post("/reg") {
             RegRouting(call = call, connection = connection).doReg()
         }
