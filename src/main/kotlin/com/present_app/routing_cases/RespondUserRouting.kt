@@ -10,7 +10,6 @@ class RespondUserRouting(private val call: ApplicationCall, private val connecti
         val userId = call.parameters["user_id"]!!.toInt()
         val userDao = UserDaoImpl(connection)
         try {
-            val user = userDao.getUserById(userId)!!
             call.respond(userDao.getUserById(userId)!!)
         } catch (e: Exception) {
             println(e.message)

@@ -51,7 +51,7 @@ class EnterTheGameRouting(private val call: ApplicationCall, private val connect
                         stagesResponse.add(stageResponse)
                         presentsResponse.add(presentResponse)
                     }
-                    val enterGame = EnterGameObject(game.id, game.idAdmin, idUser, game.date, game.idChat)
+                    val enterGame = EnterGameObject(game.id, game.idAdmin, game.idUser, game.date, game.idChat)
                     val enterResponse = EnterResponse(enterGame, stagesResponse, presentsResponse)
 
                     call.respond(enterResponse)
