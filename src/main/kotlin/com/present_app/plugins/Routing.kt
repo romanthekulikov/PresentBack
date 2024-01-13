@@ -25,32 +25,6 @@ fun Application.configureRouting() {
     val connection = ConnectionProvider.getInstance()
 
     routing {
-        File("./presents_images").mkdirs()
-        File("./user_icons").mkdirs()
-        File("./chat_images").mkdirs()
-        staticFiles("/static", File("presents_images"))
-        staticFiles("/static", File("user_icons"))
-        staticFiles("/static", File("chat_images"))
-
-        get("/hello") {
-            call.respond("Hello World!")
-        }
-
-        get("/get_present_image") {
-            val image = call.parameters["image"]
-            call.respondFile(File("./presents_images/$image"))
-        }
-
-        get("/get_user_icon") {
-            val image = call.parameters["image"]
-            call.respondFile(File("./user_icons/$image"))
-        }
-
-        get("/get_chat_image") {
-            val image = call.parameters["image"]
-            call.respondFile(File("./chat_images/$image"))
-        }
-
         get("/auth") {
             AuthRouting(call = call, connection = connection).doAuth()
         }
@@ -75,6 +49,20 @@ fun Application.configureRouting() {
             OpenPresentRouting(call = call, connection = connection).open()
         }
 
+        get("/game") {
+            RespondGameRouting(call = call, connection = connection).respond()
+        }
+
+        get("/messages_by_substring") {
+            RespondMessagesBySubstringRouting(call = call, connection = connection).respond()
+        }
+
+        get("/chat_settings") {
+            RespondChatSettingsRouting(call = call, connection = connection).respond()
+        }
+
+
+
         post("/reg") {
             RegRouting(call = call, connection = connection).doReg()
         }
@@ -91,7 +79,23 @@ fun Application.configureRouting() {
             CheckStageKeyRouting(call = call, connection = connection).check()
         }
 
-        post("delete_tables") {
+        post("/update_chat_settings") {
+            UpdateChatSettingsRouting(call = call, connection = connection).update()
+        }
+
+        post("/save_message") {
+            SaveMessageRouting(call = call, connection = connection).save()
+        }
+
+        post("/update_message") {
+            UpdateMessageRouting(call = call, connection = connection).update()
+        }
+
+        post("/delete_message") {
+            DeleteMessageRouting(call = call, connection = connection).delete()
+        }
+
+        post("/delete_db") {
             connection.createStatement().execute("DROP TABLE public.user CASCADE")
             connection.createStatement().execute("DROP TABLE public.chat CASCADE")
             connection.createStatement().execute("DROP TABLE public.game CASCADE")
@@ -101,7 +105,7 @@ fun Application.configureRouting() {
             connection.createStatement().execute("DROP TABLE public.stage CASCADE")
         }
 
-        post("create_db") {
+        post("/create_db") {
             connection.createStatement().execute("BEGIN;\n" +
                     "\n" +
                     "\n" +

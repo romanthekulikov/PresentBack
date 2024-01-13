@@ -24,6 +24,34 @@ class GameDaoImpl(private val connection: Connection) : GameDao {
         }
     }
 
+    override fun getById(idGame: Int): Game? {
+        return try {
+            val result = connection.createStatement().executeQuery(
+                "SELECT id_game, id_admin, id_user, enter_key, id_chat, start_date FROM public.game " +
+                        "WHERE id_game = $idGame"
+            )
+            if (result.next()) {
+                val id = result.getInt(1)
+                val idAdminGame = result.getInt(2)
+                val idUser = result.getInt(3)
+                val enterKey = result.getString(4)
+                val idChat = result.getInt(5)
+                val date = result.getString(6)
+                return Game(
+                    id = id,
+                    idAdmin = idAdminGame,
+                    enterKey = enterKey,
+                    idChat = idChat,
+                    idUser = idUser,
+                    date = date ?: ""
+                )
+            }
+            null
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     override fun getAllGameByUserId(idAdmin: Int): List<Game>? {
         return try {
             val result = connection.createStatement().executeQuery(

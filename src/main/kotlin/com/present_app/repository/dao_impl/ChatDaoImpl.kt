@@ -26,6 +26,17 @@ class ChatDaoImpl(private val connection: Connection) : ChatDao {
         }
     }
 
+    override fun updateChatSettings(chat: Chat) {
+        try {
+            connection.createStatement().executeQuery("UPDATE public.chat " +
+                    "SET " +
+                    "background_color = '${chat.bgColor}', " +
+                    "background_image = '${chat.bgImage}', " +
+                    "text_size = ${chat.textSize} " +
+                    "WHERE id_chat = ${chat.id}")
+        } catch (_: Exception) {}
+    }
+
     override fun create(item: Chat): Boolean {
         return try {
             connection.createStatement().executeQuery(
@@ -58,6 +69,31 @@ class ChatDaoImpl(private val connection: Connection) : ChatDao {
             null
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     override fun deleteItem(filter: Int): Boolean {
         TODO("Not yet implemented")
