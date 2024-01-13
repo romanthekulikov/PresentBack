@@ -67,6 +67,10 @@ fun Application.configureRouting() {
             RespondGamesProgress(call = call, connection = connection).respond()
         }
 
+        get("/user_info") {
+            RespondUserInfo(call = call, connection = connection).respond()
+        }
+
         post("/reg") {
             RegRouting(call = call, connection = connection).doReg()
         }
